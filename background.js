@@ -37,3 +37,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         saveClipboard(message.text);
     }
 });
+
+// Start clipboard monitoring when a tab is active
+chrome.tabs.onActivated.addListener(activeInfo => {
+    chrome.tabs.get(activeInfo.tabId, (tab) => {
+        if (tab && tab.active) {
+            console.log("Tab activated, sending message to start clipboard monitoring");
+            chrome.scripting.executeScript({
+                target: { tabId: activeInfo.tabId },
+                files: ['content.js']
+            });
+        }
+    });
+});

@@ -1,6 +1,7 @@
 console.log("Content script loaded");
 
 let previousClipboard = '';
+let isMonitoring = false;
 
 // Function to read clipboard
 function readClipboard() {
@@ -22,3 +23,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         setInterval(readClipboard, 2000); // Check clipboard content every 2 seconds
     }
 });
+
+// Automatically start clipboard monitoring when the tab is activated
+startClipboardMonitoring();
+
+// Start monitoring clipboard every 2 seconds
+function startClipboardMonitoring() {
+    if (!isMonitoring) {
+        isMonitoring = true;
+        console.log("startClipboardMonitoring");
+        setInterval(readClipboard, 2000); // Check clipboard content every 2 seconds
+        console.log("Started clipboard monitoring");
+    }
+}

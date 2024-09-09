@@ -51,4 +51,23 @@ body {
   button:hover {
     background-color: #005f7a;
   }
+
+  .copy-button,
+.delete-button {
+  margin-left: 5px;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+
+.copy-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
   

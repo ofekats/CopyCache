@@ -1,20 +1,6 @@
 console.log("Background script loaded");
 
-let isMonitoring = false;
 const MAX_HISTORY_ITEMS = 50;
-
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === 'start-monitoring') {
-        if (!isMonitoring) {
-            console.log("Starting clipboard monitoring");
-            isMonitoring = true;
-            // Send message to content script to start monitoring the clipboard
-            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-                chrome.tabs.sendMessage(tabs[0].id, { type: 'start-clipboard-monitoring' });
-            });
-        }
-    }
-});
 
 // Save clipboard data to storage
 function saveClipboard(text) {

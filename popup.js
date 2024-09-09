@@ -1,39 +1,65 @@
-console.log("popup.js loaded");
-
-// Function to load clipboard history and display it in the popup
-function loadClipboardHistory() {
-    chrome.storage.local.get(['clipboardHistory'], (result) => {
-        const historyList = document.getElementById('history-list');
-        historyList.innerHTML = ''; // Clear the list first
-        const history = result.clipboardHistory || [];
-
-        history.forEach(item => {
-            const listItem = document.createElement('li');
-            listItem.textContent = item;
-            historyList.appendChild(listItem);
-        });
-    });
-}
-
-// Wait for DOM to load and attach event listeners
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM content loaded");
-
-    // Load clipboard history when the popup is opened
-    loadClipboardHistory();
-
-    const startMonitoringBtn = document.getElementById('start-monitoring-btn');
-    
-    // When the button is clicked, start clipboard monitoring
-    startMonitoringBtn.addEventListener('click', () => {
-        console.log("Start Clipboard Monitoring button clicked");
-        chrome.runtime.sendMessage({ type: 'start-monitoring' });
-    });
-
-    // Clear history when button is clicked
-    document.getElementById('clear-history').addEventListener('click', () => {
-        chrome.storage.local.set({ clipboardHistory: [] }, () => {
-            loadClipboardHistory(); // Reload history after clearing
+    const historyList = document.getElementById('history-list');
+    const clearHistoryButton = document.getElementById('clear-history');
+  
+    // Function to create a history item with copy and delete buttons
+    function createHistoryItem(text) {
+      const listItem = document.createElement('li');
+      listItem.className = 'history-item';
+  
+      // Create the text element
+      const textElement = document.createElement('span');
+      textElement.textContent = text;
+      listItem.appendChild(textElement);
+  
+      // Create the copy button
+      const copyButton = document.createElement('button');
+      copyButton.textContent = 'Copy';
+      copyButton.className = 'copy-button';
+      copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(text).then(() => {
+          console.log('Copied to clipboard:', text);
+        }).catch(err => {
+          console.error('Failed to copy text:', err);
         });
+      });
+      listItem.appendChild(copyButton);
+  
+      // Create the delete button
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'X';
+      deleteButton.className = 'delete-button';
+      deleteButton.addEventListener('click', () => {
+        listItem.remove(); // Remove the item from the UI
+        removeFromStorage(text); // Remove from storage
+      });
+      listItem.appendChild(deleteButton);
+  
+      return listItem;
+    }
+  
+    // Function to remove an item from storage
+    function removeFromStorage(text) {
+      chrome.storage.local.get(['clipboardHistory'], (result) => {
+        let history = result.clipboardHistory || [];
+        history = history.filter(item => item !== text);
+        chrome.storage.local.set({ clipboardHistory: history });
+      });
+    }
+  
+    // Load history from storage and display it
+    chrome.storage.local.get(['clipboardHistory'], (result) => {
+      const history = result.clipboardHistory || [];
+      historyList.innerHTML = ''; // Clear existing items
+      history.forEach(text => {
+        historyList.appendChild(createHistoryItem(text));
+      });
     });
-});
+  
+    // Clear all history on button click
+    clearHistoryButton.addEventListener('click', () => {
+      chrome.storage.local.set({ clipboardHistory: [] });
+      historyList.innerHTML = ''; // Clear UI
+    });
+  });
+  

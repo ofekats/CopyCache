@@ -70,4 +70,7 @@ body {
   color: white;
   border: none;
 }
-  
+ 
+#notification-switch {
+    margin-top: 10px;
+}

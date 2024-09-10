@@ -63,3 +63,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+document.addEventListener('DOMContentLoaded', () => {
+    const switchButton = document.getElementById('notification-switch');
+
+    // Load switch state from storage
+    chrome.storage.local.get(['notificationsEnabled'], (result) => {
+        switchButton.checked = result.notificationsEnabled !== false; // Default to true if not set
+    });
+
+    // Save switch state when it changes
+    switchButton.addEventListener('change', () => {
+        chrome.storage.local.set({ notificationsEnabled: switchButton.checked });
+    });
+});
+
+

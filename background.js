@@ -21,6 +21,14 @@ function saveClipboard(text) {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'clipboard-update') {
         saveClipboard(message.text);
+        
+        // Check if notifications are enabled
+        chrome.storage.local.get(['notificationsEnabled'], (result) => {
+            if (result.notificationsEnabled !== false) {
+                console.log("createNotification!");
+                createNotification(message.text);
+            }
+        });
     }
 });
 
@@ -28,7 +36,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 chrome.tabs.onActivated.addListener(activeInfo => {
     chrome.tabs.get(activeInfo.tabId, (tab) => {
         if (tab && tab.active) {
-            console.log("Tab activated, sending message to start clipboard monitoring");
             chrome.scripting.executeScript({
                 target: { tabId: activeInfo.tabId },
                 files: ['content.js']
@@ -36,3 +43,18 @@ chrome.tabs.onActivated.addListener(activeInfo => {
         }
     });
 });
+
+
+function createNotification(text) {
+    console.log("createNotification");
+    const notificationOptions = {
+        type: 'basic',
+        iconUrl: chrome.runtime.getURL('icons/128.png'),
+        title: 'CopyCache',
+        message: `Copied to CopyCache: ${text}`
+    };
+
+    chrome.notifications.create('clipboard-notification', notificationOptions, (notificationId) => {
+        console.log(`Notification created with ID: ${notificationId}`);
+    });
+}

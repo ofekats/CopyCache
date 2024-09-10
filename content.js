@@ -1,8 +1,15 @@
 console.log("Content script loaded");
 
-let previousClipboard = '';
-let isMonitoring = false;
+// Check if `previousClipboard` is already defined in the global scope
+if (typeof window.previousClipboard === 'undefined') {
+    window.previousClipboard = ''; // Initialize only if not defined
+}
 
+
+// Check if `isMonitoring` is already defined in the global scope
+if (typeof window.isMonitoring === 'undefined') {
+    window.isMonitoring = false; // Initialize only if not defined
+}
 // Function to check if the tab is focused
 function isTabFocused() {
     return document.hasFocus();
@@ -12,13 +19,13 @@ function isTabFocused() {
 function readClipboard() {
     if (isTabFocused()) {
         navigator.clipboard.readText().then((text) => {
-            if (text && text !== previousClipboard) {
+            if (text && text !== window.previousClipboard) {
                 chrome.runtime.sendMessage({ type: 'clipboard-update', text });
-                previousClipboard = text;
+                window.previousClipboard = text;
                 console.log("Clipboard content sent to background:", text);
             }
         }).catch(err => {
-            console.error('Failed to read clipboard content:', err);
+            console.log('Failed to read clipboard content');
         });
     } else {
         console.log('Tab is not focused. Skipping clipboard read.');
@@ -30,10 +37,11 @@ startClipboardMonitoring();
 
 // Start monitoring clipboard every 2 seconds
 function startClipboardMonitoring() {
-    if (!isMonitoring) {
-        isMonitoring = true;
+    if (!window.isMonitoring) {
+        window.isMonitoring = true;
         console.log("startClipboardMonitoring");
         setInterval(readClipboard, 2000); // Check clipboard content every 2 seconds
         console.log("Started clipboard monitoring");
     }
 }
+

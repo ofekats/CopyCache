@@ -6,7 +6,13 @@
         "clipboardRead", 
         "clipboardWrite",
         "storage",
-        "activeTab"
+        "scripting",
+        "activeTab",
+        "tabs",
+        "notifications"
+    ],
+    "host_permissions": [
+        "*://*/*" 
     ],
     "background": {
         "service_worker": "background.js"

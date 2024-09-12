@@ -5,11 +5,11 @@ if (typeof window.previousClipboard === 'undefined') {
     window.previousClipboard = ''; // Initialize only if not defined
 }
 
-
 // Check if `isMonitoring` is already defined in the global scope
 if (typeof window.isMonitoring === 'undefined') {
     window.isMonitoring = false; // Initialize only if not defined
 }
+
 // Function to check if the tab is focused
 function isTabFocused() {
     return document.hasFocus();

@@ -3,20 +3,20 @@ body {
     margin: 0;
     padding: 10px;
     width: 300px;
-    position: relative; /* Ensure the container can be positioned relatively */
+    position: relative; 
 }
 
 .icon {
     width: 50px; 
     height: 50px;
-    position: absolute; /* Position the icon absolutely */
-    top: 10px; /* Adjust top position as needed */
-    left: 10px; /* Adjust left position as needed */
+    position: absolute; 
+    top: 10px; 
+    left: 10px;
 }
 
 .container {
     text-align: center;
-    padding-top: 2px; /* Add padding to make space for the icon */
+    padding-top: 2px; 
 }
 
 h1 {
@@ -59,7 +59,7 @@ button {
 }
 
 button:hover {
-    background-color: #4a1c6d; /* Slightly different shade for hover effect */
+    background-color: #4a1c6d; 
     color: white;
 }
 

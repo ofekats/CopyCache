@@ -44,7 +44,7 @@ To ensure the proper functionality of the CopyCache extension, the following per
 
 - **`scripting`**: Grants the extension the ability to execute scripts within web pages. This is used to inject the content script (`content.js`) into active tabs to monitor clipboard changes.
 
-- **`activeTab` ans `Tabs`**: Allows the extension to access the currently active tab. This permission is used to interact with the active tab for script injection and clipboard monitoring.
+- **`Tabs`**: Allows the extension to access the currently active tab. This permission is used to interact with the active tab for script injection and clipboard monitoring.
 
 - **`notifications`**: Required to display notifications when new clipboard text is detected. This enables the extension to inform the user about copied content through pop-up notifications.
 

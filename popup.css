@@ -3,19 +3,29 @@ body {
     margin: 0;
     padding: 10px;
     width: 300px;
-  }
-  
-  .container {
+    position: relative; /* Ensure the container can be positioned relatively */
+}
+
+.icon {
+    width: 50px; 
+    height: 50px;
+    position: absolute; /* Position the icon absolutely */
+    top: 10px; /* Adjust top position as needed */
+    left: 10px; /* Adjust left position as needed */
+}
+
+.container {
     text-align: center;
-  }
-  
-  h1 {
-    font-size: 18px;
+    padding-top: 2px; /* Add padding to make space for the icon */
+}
+
+h1 {
+    font-size: 24px;
     color: #662d91;
     margin-bottom: 10px;
-  }
-  
-  ul {
+}
+
+ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -23,21 +33,21 @@ body {
     overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  ul li {
+}
+
+ul li {
     background-color: #f4f4f4;
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  ul li:hover {
+}
+
+ul li:hover {
     background-color: #e0e0e0;
-  }
-  
-  button {
+}
+
+button {
     background-color: #662d91;
     color: white;
     border: none;
@@ -46,32 +56,32 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-  }
-  
-  button:hover {
-    background-color: #662d91;
-    color: white;
-  }
+}
 
-  .copy-button,
+button:hover {
+    background-color: #4a1c6d; /* Slightly different shade for hover effect */
+    color: white;
+}
+
+.copy-button,
 .delete-button {
-  margin-left: 5px;
-  padding: 3px 5px;
-  cursor: pointer;
+    margin-left: 5px;
+    padding: 3px 5px;
+    cursor: pointer;
 }
 
 .copy-button {
-  background-color: #ACE1AF;
-  color: #1B4D3E;
-  border: none;
+    background-color: #ACE1AF;
+    color: #1B4D3E;
+    border: none;
 }
 
 .delete-button {
-  background-color: #CD5C5C;
-  color: white;
-  border: none;
+    background-color: #CD5C5C;
+    color: white;
+    border: none;
 }
- 
+
 #notification-switch {
     margin-top: 10px;
 }

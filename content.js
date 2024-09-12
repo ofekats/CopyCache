@@ -1,4 +1,4 @@
-console.log("Content script loaded");
+// console.log("Content script loaded");
 
 // Check if `previousClipboard` is already defined in the global scope
 if (typeof window.previousClipboard === 'undefined') {
@@ -19,17 +19,17 @@ function isTabFocused() {
 function readClipboard() {
     if (isTabFocused()) {
         navigator.clipboard.readText().then((text) => {
-            console.log("window.previousClipboard:",window.previousClipboard);
+            // console.log("window.previousClipboard:",window.previousClipboard);
             if (text && text !== window.previousClipboard) {
                 chrome.runtime.sendMessage({ type: 'clipboard-update', text });
                 window.previousClipboard = text;
-                console.log("Clipboard content sent to background:", text);
+                // console.log("Clipboard content sent to background:", text);
             }
         }).catch(err => {
-            console.log('Failed to read clipboard content');
+            // console.log('Failed to read clipboard content');
         });
     } else {
-        console.log('Tab is not focused. Skipping clipboard read.');
+        // console.log('Tab is not focused. Skipping clipboard read.');
     }
 }
 
@@ -40,9 +40,9 @@ startClipboardMonitoring();
 function startClipboardMonitoring() {
     if (!window.isMonitoring) {
         window.isMonitoring = true;
-        console.log("startClipboardMonitoring");
+        // console.log("startClipboardMonitoring");
         setInterval(readClipboard, 2000); // Check clipboard content every 2 seconds
-        console.log("Started clipboard monitoring");
+        // console.log("Started clipboard monitoring");
     }
 }
 

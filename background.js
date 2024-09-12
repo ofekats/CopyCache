@@ -1,4 +1,4 @@
-console.log("Background script loaded");
+// console.log("Background script loaded");
 
 const MAX_HISTORY_ITEMS = 50;
 
@@ -14,7 +14,7 @@ function saveClipboard(text) {
                 history.pop();  // Limit history size
             }
             chrome.storage.local.set({ clipboardHistory: history });
-            console.log("New clipboard text saved:", text);
+            // console.log("New clipboard text saved:", text);
         }
     });
 }
@@ -48,7 +48,7 @@ chrome.tabs.onActivated.addListener(activeInfo => {
 
 
 function createNotification(text) {
-    console.log("createNotification");
+    // console.log("createNotification");
     const notificationOptions = {
         type: 'basic',
         iconUrl: 'icons/128.png',
@@ -56,12 +56,17 @@ function createNotification(text) {
         message: `Copied to CopyCache: ${text}`
     };
 
-    chrome.notifications.create(`my-notification-${Date.now()}`, notificationOptions, () => {
-        console.log(`Notification created on chrome`);
+    chrome.notifications.create(`my-notification-${Date.now()}`, notificationOptions, (notificationId) => {
+        // console.log(`Notification created on chrome`);
         if (chrome.runtime.lastError) {
             console.error("Notification error:", chrome.runtime.lastError.message);
-        } else {
-            console.log("Notification created successfully");
         }
+
+        // delete after 5 second
+        setTimeout(() => {
+            chrome.notifications.clear(notificationId, () => {
+                // console.log("Notification cleared");
+            });
+        }, 5000);
     });
 }

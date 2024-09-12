@@ -19,6 +19,7 @@ function isTabFocused() {
 function readClipboard() {
     if (isTabFocused()) {
         navigator.clipboard.readText().then((text) => {
+            console.log("window.previousClipboard:",window.previousClipboard);
             if (text && text !== window.previousClipboard) {
                 chrome.runtime.sendMessage({ type: 'clipboard-update', text });
                 window.previousClipboard = text;

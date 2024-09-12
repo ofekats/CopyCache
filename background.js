@@ -2,6 +2,8 @@ console.log("Background script loaded");
 
 const MAX_HISTORY_ITEMS = 50;
 
+let LastNotification = '';
+
 // Save clipboard data to storage
 function saveClipboard(text) {
     chrome.storage.local.get(['clipboardHistory'], (result) => {
@@ -24,8 +26,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         
         // Check if notifications are enabled
         chrome.storage.local.get(['notificationsEnabled'], (result) => {
-            if (result.notificationsEnabled !== false) {
-                console.log("createNotification!");
+            if (result.notificationsEnabled !== false && LastNotification !== message.text) {
+                LastNotification = message.text;
                 createNotification(message.text);
             }
         });
@@ -49,12 +51,17 @@ function createNotification(text) {
     console.log("createNotification");
     const notificationOptions = {
         type: 'basic',
-        iconUrl: chrome.runtime.getURL('icons/128.png'),
+        iconUrl: 'icons/128.png',
         title: 'CopyCache',
         message: `Copied to CopyCache: ${text}`
     };
 
-    chrome.notifications.create('clipboard-notification', notificationOptions, (notificationId) => {
-        console.log(`Notification created with ID: ${notificationId}`);
+    chrome.notifications.create(`my-notification-${Date.now()}`, notificationOptions, () => {
+        console.log(`Notification created on chrome`);
+        if (chrome.runtime.lastError) {
+            console.error("Notification error:", chrome.runtime.lastError.message);
+        } else {
+            console.log("Notification created successfully");
+        }
     });
 }

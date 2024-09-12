@@ -37,7 +37,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // Start clipboard monitoring when a tab is active
 chrome.tabs.onActivated.addListener(activeInfo => {
     chrome.tabs.get(activeInfo.tabId, (tab) => {
-        if (tab && tab.active) {
+        if (tab && tab.active && !tab.url.startsWith('chrome://')) {
             chrome.scripting.executeScript({
                 target: { tabId: activeInfo.tabId },
                 files: ['content.js']

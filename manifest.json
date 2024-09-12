@@ -7,7 +7,6 @@
         "clipboardWrite",
         "storage",
         "scripting",
-        "activeTab",
         "tabs",
         "notifications"
     ],
